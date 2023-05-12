@@ -6,8 +6,6 @@
   error_reporting(E_ALL);
 
   // // Database connection.
-  $db = dbConnect();
-  
   // Handle channels request.
   $request = $_GET['request'];
   $method = $_SERVER['REQUEST_METHOD'];
@@ -19,12 +17,12 @@
       $photo = $_FILES['img'];
       $time = $_POST['time'];
       $login = 'user';
-      $data = dbPubImg($db,$definb,$time,$login,$photo);
+      $data = dbPubImg($definb,$time,$login,$photo);
     }
   }
   elseif($method == 'GET' && $request = 'getFirstOfDefi' && isset($_GET['nbDefi'])){
-    $nbDefi = intval($_GET['nbDefi']);
-    $data = dbGetWinnerOfDefi($db,$nbDefi);
+    $nbDefi = "defi_".$_GET['nbDefi'];
+    $data = dbGetWinnerOfDefi($nbDefi);
   }
     
 

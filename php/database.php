@@ -2,7 +2,7 @@
   require_once('constants.php');
 
 
-  function dbPubImg($db,$definb,$time,$login,$photo){
+  function dbPubImg($definb,$time,$login,$photo){
     try{
         mkdir("../db/".$login);
         $file = fopen("../db/".$definb."/".$login."/timestamp.txt", "w");
@@ -25,9 +25,9 @@
   }
 
 
-  function dbGetWinnerOfDefi($db,$nbDefi){
+  function dbGetWinnerOfDefi($nbDefi){
     try{
-        $directory = "../db/".$definb."/";  // Path to the current folder
+        $directory = "../db/".$nbDefi."/";  // Path to the current folder
 
         $folders = array_filter(scandir($directory), function($item) use ($directory) {
             return is_dir($directory . $item) && !in_array($item, ['.', '..']);
@@ -38,18 +38,18 @@
 
         foreach ($folders as $folder) {
             $handle = fopen($directory.$folder."/timestamp.txt",'r');
-            $timestamp = fread($handle, filesize('timestamp.txt'));
-            if($timestamp < $Winner[0]){
-                $Winner[1] = $folder;
-                $Winner[0] = $timestamp;
+            $timestamp = fread($handle, filesize($directory.$folder."/timestamp.txt"));
+            if(!isset($Winner['timestamp']) || $timestamp < $Winner['timestamp']  ){
+                $Winner['user'] = $folder;
+                $Winner['timestamp'] = $timestamp;
             }
             fclose($handle);
         }
 
         //on va aller récup l'image, puis la mettre dans Winner[3] puis on send.
-        $imageData = file_get_contents($directory.$Winner[1]."/image.jpg");
+        $imageData = file_get_contents($directory.$Winner['user']."/image.jpg");
         $base64Image = base64_encode($imageData);
-        $Winner[3] = $base64Image;
+        $Winner['image'] = $base64Image;
     }
     catch (PDOException $exception){
       error_log('Request error: '.$exception->getMessage());
