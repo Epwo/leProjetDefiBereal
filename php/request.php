@@ -12,6 +12,16 @@
   $request = $_GET['request'];
   $method = $_SERVER['REQUEST_METHOD'];
 
+  
+  if($method == 'POST'){
+    if($request == 'publi' && $method = 'POST' && isset($_POST['NbDefi']) && isset($_POST['time']) && isset($_POST['user']) && isset($_POST['img'])){
+      $definb = intval($_POST['NbDefi']);
+      $photo = $_FILES['img'];
+      $time = $_POST['time'];
+      $login = 'user';
+      $data = dbPubImg($db,$definb,$time,$login,$photo);
+    }
+  }
     
 
   echo json_encode($data);
