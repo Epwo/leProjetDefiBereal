@@ -12,7 +12,7 @@
   $request = $_GET['request'];
   $method = $_SERVER['REQUEST_METHOD'];
 
-  
+
   if($method == 'POST'){
     if($request == 'publi' && $method = 'POST' && isset($_POST['NbDefi']) && isset($_POST['time']) && isset($_POST['user']) && isset($_POST['img'])){
       $definb = intval($_POST['NbDefi']);
@@ -21,6 +21,10 @@
       $login = 'user';
       $data = dbPubImg($db,$definb,$time,$login,$photo);
     }
+  }
+  elseif($method == 'GET' && $request = 'getFirstOfDefi' && isset($_GET['nbDefi'])){
+    $nbDefi = intval($_GET['nbDefi']);
+    $data = dbGetWinnerOfDefi($db,$nbDefi);
   }
     
 
