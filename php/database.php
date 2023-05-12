@@ -58,4 +58,35 @@
     return $Winner;
   }
 
+
+  function dbGetAllOfDefi($nbDefi){
+    try{
+        $directory = "../db/".$nbDefi."/";  // Path to the current folder
+
+        $folders = array_filter(scandir($directory), function($item) use ($directory) {
+            return is_dir($directory . $item) && !in_array($item, ['.', '..']);
+        });
+        $arrayAll= [];
+        //aller regarder dans tt les fichiers pour trouver le vainqueur
+
+        foreach ($folders as $folder) {
+            $arrayAll[$folder] = [];
+            $handle = fopen($directory.$folder."/timestamp.txt",'r');
+            $timestamp = fread($handle, filesize($directory.$folder."/timestamp.txt"));
+            $arrayAll[$folder]['timestamp'] = $timestamp;
+            fclose($handle);
+
+            $imageData = file_get_contents($directory.$folder."/image.jpg");
+            $base64Image = base64_encode($imageData);
+            $arrayAll[$folder]['image']= $base64Image;
+        }
+
+    }
+    catch (PDOException $exception){
+      error_log('Request error: '.$exception->getMessage());
+      return false;
+    }
+    return $arrayAll;
+  }
+
 ?>

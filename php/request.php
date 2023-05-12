@@ -12,7 +12,7 @@
 
 
   if($method == 'POST'){
-    if($request == 'publi' && $method = 'POST' && isset($_POST['NbDefi']) && isset($_POST['time']) && isset($_POST['user']) && isset($_POST['img'])){
+    if($request == 'publi' && isset($_POST['NbDefi']) && isset($_POST['time']) && isset($_POST['user']) && isset($_POST['img'])){
       $definb = intval($_POST['NbDefi']);
       $photo = $_FILES['img'];
       $time = $_POST['time'];
@@ -20,10 +20,16 @@
       $data = dbPubImg($definb,$time,$login,$photo);
     }
   }
-  elseif($method == 'GET' && $request = 'getFirstOfDefi' && isset($_GET['nbDefi'])){
-    $nbDefi = "defi_".$_GET['nbDefi'];
-    $data = dbGetWinnerOfDefi($nbDefi);
-  }
+  if($method == 'GET'){
+    if($request == 'getFirstOfDefi' && isset($_GET['nbDefi'])){
+      $nbDefi = "defi_".$_GET['nbDefi'];
+      $data = dbGetWinnerOfDefi($nbDefi);
+    }
+    elseif($request == 'getAll' && isset($_GET['nbDefi'])){
+      $nbDefi = "defi_".$_GET['nbDefi'];
+      $data = dbGetAllOfDefi($nbDefi);
+    }
+}
     
 
   echo json_encode($data);
