@@ -29,6 +29,9 @@
       $nbDefi = "defi_".$_GET['nbDefi'];
       $data = dbGetAllOfDefi($nbDefi);
     }
+    elseif($request == 'getDefis'){
+      $data = dbGetAllDefis();
+    }
 }
     
 

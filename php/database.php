@@ -59,6 +59,32 @@
   }
 
 
+  function dbGetAllDefis(){
+    try{
+        $directory = "../db/";  // Path to the current folder
+
+        $folders = array_filter(scandir($directory), function($item) use ($directory) {
+            return is_dir($directory . $item) && !in_array($item, ['.', '..']);
+        });
+        $arrayDefis= [];
+        //aller regarder dans tt les fichiers pour trouver le vainqueur
+
+        foreach ($folders as $folder) {
+            $arrayDefis[$folder] = [];
+            $handle = fopen($directory.$folder."/consigne.txt",'r');
+            $consigne = fread($handle, filesize($directory.$folder."/consigne.txt"));
+            $arrayAll[$folder]['consigne'] = $consigne;
+            fclose($handle);
+        }
+
+    }
+    catch (PDOException $exception){
+      error_log('Request error: '.$exception->getMessage());
+      return false;
+    }
+    return $arrayAll;
+  }
+
   function dbGetAllOfDefi($nbDefi){
     try{
         $directory = "../db/".$nbDefi."/";  // Path to the current folder
