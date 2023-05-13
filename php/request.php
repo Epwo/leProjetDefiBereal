@@ -12,11 +12,16 @@
 
 
   if($method == 'POST'){
+    $data = 'error';
+    if($request =='publi'){
+      $data = '1';
+    }
     if($request == 'publi' && isset($_POST['NbDefi']) && isset($_POST['time']) && isset($_POST['user']) && isset($_POST['img'])){
+      $data = 'good';
       $definb = intval($_POST['NbDefi']);
-      $photo = $_FILES['img'];
+      $photo = $_POST['img'];
       $time = $_POST['time'];
-      $login = 'user';
+      $login = $_POST['user'];
       $data = dbPubImg($definb,$time,$login,$photo);
     }
   }
