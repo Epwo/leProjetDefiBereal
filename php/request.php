@@ -37,6 +37,15 @@
     elseif($request == 'getDefis'){
       $data = dbGetAllDefis();
     }
+    elseif($request == 'createDefi'&& isset($_GET['time']) && isset($_GET['consigne']) && isset($_GET['pts'])){
+      $chrono = $_GET['time'];
+      $consigne = $_GET['consigne'];
+      $nbPts = $_GET['pts'];
+      $data = dbCreateDefi($chrono,$consigne,$nbPts);
+    }
+    elseif($request == 'getCurrentDefi'){
+      $data = dbGetCurrentDefi();
+    }
 }
     
 
